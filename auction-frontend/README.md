@@ -76,6 +76,35 @@ Modules
         - price
         - end_time
         - created_at
+        - created_by
+            - _id
+            - name
+            - email
+        - modified_at
+        - modified_by
+            - _id
+            - name
+            - email
         - status - Pending, Active, Finish, Canceled
-        
+        - expired_at
+    
+    - Bid
+        - _id
+        - bid_price
+        - created_at
+        - created_by
+            - _id
+            - name
+            - email
+        - auction
+
+    - Auction Results
+        - _id
+        - auction
+        - winner 
+        - created_at
+        - created_by
+
+
+
 
