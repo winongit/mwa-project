@@ -106,5 +106,16 @@ Modules
         - created_by
 
 
+UI Design
+------
+Auction
+
+Left Side
+- Auction
+
+
+- Middle Side
+    Bidding
+    
 
 
