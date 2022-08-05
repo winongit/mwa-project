@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const User = mongoose.model("User");
+const jwt = require("jsonwebtoken");
 
 const registerUser = async (user) => {
   let newUser = new User(user);
@@ -14,4 +15,25 @@ const registerUser = async (user) => {
   }
 };
 
-module.exports = { registerUser };
+const signIn = async (user) => {
+  try {
+    let foundUser = await User.findOne({
+      email: user.email,
+    });
+    if (!foundUser || !foundUser.comparePassword(user.password)) {
+      return {
+        message: "Authentication failed. Invalid user or password.",
+      };
+    }
+    return {
+      token: jwt.sign(
+        { email: user.email, name: user.name, _id: user._id },
+        "RESTFULAPIs"
+      ),
+    };
+  } catch (err) {
+    return err.message;
+  }
+};
+
+module.exports = { registerUser, signIn };
