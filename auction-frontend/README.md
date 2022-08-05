@@ -106,6 +106,14 @@ Modules
         - created_by
 
 
+- Angular Routings
+    /user       - user module
+    /auction    - auction module
+    /bidding    - bidding module
+    /core       - not lazy laoding module
+    
+
+
 UI Design
 ------
 Auction

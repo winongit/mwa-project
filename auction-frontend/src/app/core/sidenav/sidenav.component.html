@@ -1,0 +1,34 @@
+<mat-sidenav-container class="app-sidenav-container">
+    <mat-sidenav #sidenav class="app-sidenav mat-elevation-z10"
+        [opened]="!isScreenSmall"
+        [mode]="isScreenSmall ? 'over' : 'side'">
+        <mat-toolbar color="primary">
+            <span>Actions</span>
+        </mat-toolbar>
+        <mat-nav-list>
+            <mat-list-item>
+               <a matLine [routerLink]="['/auction']">
+                    <mat-icon mat-list-icon>balance</mat-icon>
+                    Auction
+               </a>
+            </mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item>
+               <a matLine [routerLink]="['/bidding']">
+                    <mat-icon mat-list-icon>paid</mat-icon>
+                    Bidding
+               </a> 
+            </mat-list-item>
+            <mat-divider></mat-divider>
+          </mat-nav-list>
+          
+    </mat-sidenav>
+
+    <div class="app-sidenav-content">
+        <app-toolbar (toggleSidenav)="sidenav.toggle()"></app-toolbar>
+        <div class="wrapper">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+</mat-sidenav-container>
+
