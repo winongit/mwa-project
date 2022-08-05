@@ -20,6 +20,8 @@ mongoose.connect("mongodb://localhost:27017/AuctionDB", {
 app.use("/users", require("./routers/UserRouter"));
 
 // auction
+app.use("/auctions", require('./routers/AuctionRouter'));
+
 
 // bidding
 

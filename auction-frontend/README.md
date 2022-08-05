@@ -71,7 +71,9 @@ Modules
     
     - Auction
         - _id
+        - title
         - description
+        - d
         - category
         - price
         - end_time
