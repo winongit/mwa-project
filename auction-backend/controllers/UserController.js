@@ -1,7 +1,3 @@
-const mongoose = require("mongoose");
-const jwt = require("jsonwebtoken");
-const bcrypt = require("bcrypt");
-const User = mongoose.model("User");
 var userService = require("../services/UserService");
 
 exports.register = async (req, res) => {

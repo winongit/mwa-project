@@ -1,10 +1,8 @@
 const express = require("express");
 const cors = require("cors");
-const mongoose = require("mongoose");
 const morgan = require("morgan");
 const bodyParser = require("body-parser");
-const User = require("./models/User");
-const jsonwebtoken = require("jsonwebtoken");
+const mongoose = require("mongoose");
 
 const app = express();
 app.use(morgan("dev"));

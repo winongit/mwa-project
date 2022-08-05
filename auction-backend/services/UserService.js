@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
-const bcrypt = require("bcrypt");
 const User = mongoose.model("User");
+const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 const registerUser = async (user) => {
