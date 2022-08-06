@@ -7,4 +7,9 @@ async function createAuction(auction) {
     return auctionFromDB;
 } 
 
-module.exports = {createAuction};
+async function getAllAuctions() {
+    let auctions = await Auction.find({});
+    return auctions;
+}
+
+module.exports = {createAuction, getAllAuctions};
