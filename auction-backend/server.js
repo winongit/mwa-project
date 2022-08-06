@@ -16,6 +16,9 @@ mongoose.connect("mongodb://localhost:27017/AuctionDB", {
   useNewUrlParser: true,
 });
 
+// middlewares
+app.use('/pictures', express.static(__dirname + '/assets/pics'));
+
 // user
 app.use("/users", require("./routers/UserRouter"));
 

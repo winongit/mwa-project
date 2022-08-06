@@ -14,3 +14,7 @@ exports.createAuction = async(req, res) => {
         });
     }
 }
+
+module.exports.uploadPhoto = (req, res) => {
+    res.status(200).json({filename: req.file.filename});
+};
