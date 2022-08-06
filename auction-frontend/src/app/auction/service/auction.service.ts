@@ -26,4 +26,8 @@ export class AuctionService {
 
     return this.http.request(req);
   }
+
+  getAllAuctions() {
+    return this.http.get<Array<Auction>>(`${this.baseUrl}/auctions`);
+  }
 }

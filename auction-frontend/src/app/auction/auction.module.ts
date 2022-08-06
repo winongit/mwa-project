@@ -6,16 +6,19 @@ import { MaterialModule } from '../shared/material.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
 import { AuctionService } from './service/auction.service';
+import { ListAuctionComponent } from './list-auction/list-auction.component';
 // /auction/
 
 // /users/
 const routes: Routes = [
-  {path: '', component: CreateAuctionComponent}, 
+  {path: '', component: ListAuctionComponent},
+  {path: '/create', component: CreateAuctionComponent} 
 ]
 
 @NgModule({
   declarations: [
-    CreateAuctionComponent
+    CreateAuctionComponent,
+    ListAuctionComponent
   ],
   imports: [
     CommonModule,
