@@ -1,12 +1,22 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { SigninComponent } from './signin/signin.component';
+import { RouterModule, Routes } from '@angular/router';
+import { MaterialModule } from '../shared/material.module';
+import { ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
-
-
+const routes: Routes = [
+  { path: '', children: [{ path: 'signin', component: SigninComponent }] },
+];
 @NgModule({
-  declarations: [],
+  declarations: [SigninComponent],
   imports: [
-    CommonModule
-  ]
+    CommonModule,
+    MaterialModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+    RouterModule.forChild(routes),
+  ],
 })
-export class UserModule { }
+export class UserModule {}
