@@ -71,7 +71,7 @@ export class SigninComponent implements OnInit {
     try {
       this.signInService.signIn(user).subscribe((res) => {
         localStorage.setItem('token', res.token);
-        this.router.navigate(['/']);
+        this.router.navigate(['/auction']);
       });
     } catch (err) {}
   }

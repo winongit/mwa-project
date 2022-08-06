@@ -7,7 +7,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
 const routes: Routes = [
-  { path: '', children: [{ path: 'signin', component: SigninComponent }] },
+  { path: '', 
+    children: [{ path: 'signin', component: SigninComponent }] },
 ];
 @NgModule({
   declarations: [SigninComponent],
@@ -18,5 +19,8 @@ const routes: Routes = [
     HttpClientModule,
     RouterModule.forChild(routes),
   ],
+  exports: [
+    SigninComponent
+  ]
 })
 export class UserModule {}
