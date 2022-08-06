@@ -27,7 +27,9 @@ const signIn = async (user) => {
     return {
       token: jwt.sign(
         { email: user.email, name: user.name, _id: user._id },
-        "RESTFULAPIs"
+        "RESTFULAPIs", {
+          expiresIn:"24h"
+        }
       ),
     };
   } catch (err) {
