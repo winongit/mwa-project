@@ -7,26 +7,22 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
 import { AuctionService } from './service/auction.service';
 import { ListAuctionComponent } from './list-auction/list-auction.component';
+import { AuthGuard } from '../core/guards/authguard/auth.guard';
 // /auction/
 
 // /users/
 const routes: Routes = [
-  {path: '', component: ListAuctionComponent},
-  {path: '/create', component: CreateAuctionComponent} 
-]
+  { path: '', component: ListAuctionComponent, canActivate: [AuthGuard] },
+  {
+    path: '/create',
+    component: CreateAuctionComponent,
+    canActivate: [AuthGuard],
+  },
+];
 
 @NgModule({
-  declarations: [
-    CreateAuctionComponent,
-    ListAuctionComponent
-  ],
-  imports: [
-    CommonModule,
-    SharedModule,
-    RouterModule.forChild(routes)
-  ],
-  providers: [
-    AuctionService
-  ]
+  declarations: [CreateAuctionComponent, ListAuctionComponent],
+  imports: [CommonModule, SharedModule, RouterModule.forChild(routes)],
+  providers: [AuctionService],
 })
-export class AuctionModule { }
+export class AuctionModule {}

@@ -1,24 +1,10 @@
-import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from './material.module';
 
-
-
 @NgModule({
   declarations: [],
-  imports: [
-    MaterialModule,
-    HttpClientModule,
-    ReactiveFormsModule
-    
-  ],
-  exports: [
-    MaterialModule,
-    HttpClientModule,
-    ReactiveFormsModule
-  ]
-  
-
+  imports: [MaterialModule, ReactiveFormsModule],
+  exports: [MaterialModule, ReactiveFormsModule],
 })
-export class SharedModule { }
+export class SharedModule {}

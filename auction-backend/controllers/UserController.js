@@ -21,3 +21,15 @@ exports.login = async (req, res) => {
     });
   }
 };
+
+exports.checkEmail = async (req, res) => {
+  try {
+    let { email } = req.params;
+    let user = await userService.checkEmail(email);
+    return res.json(user);
+  } catch (err) {
+    return {
+      message: err,
+    };
+  }
+};

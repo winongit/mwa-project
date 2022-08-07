@@ -5,22 +5,21 @@ import { RouterModule, Routes } from '@angular/router';
 import { MaterialModule } from '../shared/material.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { SignupComponent } from './signup/signup.component';
+import { SharedModule } from '../shared/shared.module';
 
 const routes: Routes = [
-  { path: '', 
-    children: [{ path: 'signin', component: SigninComponent }] },
+  {
+    path: '',
+    children: [
+      { path: 'signin', component: SigninComponent },
+      { path: 'signup', component: SignupComponent },
+    ],
+  },
 ];
 @NgModule({
-  declarations: [SigninComponent],
-  imports: [
-    CommonModule,
-    MaterialModule,
-    ReactiveFormsModule,
-    HttpClientModule,
-    RouterModule.forChild(routes),
-  ],
-  exports: [
-    SigninComponent
-  ]
+  declarations: [SigninComponent, SignupComponent],
+  imports: [CommonModule, SharedModule, RouterModule.forChild(routes)],
+  exports: [SigninComponent],
 })
 export class UserModule {}
