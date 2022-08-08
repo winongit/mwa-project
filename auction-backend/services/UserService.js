@@ -1,4 +1,4 @@
-const User = require('../models/User')
+const User = require("../models/User");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
@@ -27,8 +27,9 @@ const signIn = async (user) => {
     return {
       token: jwt.sign(
         { email: user.email, name: user.name, _id: user._id },
-        "RESTFULAPIs", {
-          expiresIn:"24h"
+        "SECRET",
+        {
+          expiresIn: "24h",
         }
       ),
     };
@@ -37,4 +38,13 @@ const signIn = async (user) => {
   }
 };
 
-module.exports = { registerUser, signIn };
+const checkEmail = async (email) => {
+  try {
+    let user = await User.findOne({ email: email });
+    return user;
+  } catch (err) {
+    return err.message;
+  }
+};
+
+module.exports = { registerUser, signIn, checkEmail };

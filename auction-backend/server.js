@@ -3,6 +3,7 @@ const cors = require("cors");
 const morgan = require("morgan");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
+const { checkToken } = require("./middlewares/checkToken");
 
 const app = express();
 app.use(morgan("dev"));
@@ -23,10 +24,10 @@ app.use('/pictures', express.static(__dirname + '/assets/pics'));
 app.use("/users", require("./routers/UserRouter"));
 
 // auction
-app.use("/auctions", require('./routers/AuctionRouter'));
+app.use("/auctions", checkToken, require('./routers/AuctionRouter'));
 
 // bidding
-app.use("/bid", require('./routers/BidRouter'));
+app.use("/bid", checkToken, require('./routers/BidRouter'));
 
 // Url not match
 app.use((req, res) => {
