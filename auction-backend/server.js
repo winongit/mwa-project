@@ -25,8 +25,8 @@ app.use("/users", require("./routers/UserRouter"));
 // auction
 app.use("/auctions", require('./routers/AuctionRouter'));
 
-
 // bidding
+app.use("/bid", require('./routers/BidRouter'));
 
 // Url not match
 app.use((req, res) => {

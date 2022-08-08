@@ -12,4 +12,9 @@ async function getAllAuctions() {
     return auctions;
 }
 
-module.exports = {createAuction, getAllAuctions};
+async function getAuction(auction_id) {
+    let auction = await Auction.findById(auction_id);
+    return auction;
+}
+
+module.exports = {createAuction, getAllAuctions, getAuction};

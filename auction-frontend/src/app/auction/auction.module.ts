@@ -12,7 +12,7 @@ import { ListAuctionComponent } from './list-auction/list-auction.component';
 // /users/
 const routes: Routes = [
   {path: '', component: ListAuctionComponent},
-  {path: '/create', component: CreateAuctionComponent} 
+  {path: 'create', component: CreateAuctionComponent} 
 ]
 
 @NgModule({

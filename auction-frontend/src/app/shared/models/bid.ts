@@ -1,13 +1,7 @@
-import { Bid } from "./bid";
-
-export interface Auction {
+export interface Bid {
     _id?: string;
-    title: string;
-    description: string;
-    price: number;
-    category: string;
-    imgUrl?: string;
-    end_time: number;
+    bid_amount: number;
+    status ?: string;
     created_at?: number;
     created_by?: {
         _id: string,
@@ -20,7 +14,4 @@ export interface Auction {
         name: string,
         email: string
     }
-    status?: string;
-    bids?: Array<Bid>;
-    
 }

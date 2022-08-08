@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Auction } from 'src/app/shared/models/auction';
 import { AuctionService } from '../service/auction.service';
 
@@ -9,7 +10,8 @@ import { AuctionService } from '../service/auction.service';
 })
 export class ListAuctionComponent implements OnInit {
 
-  constructor(private auctionService: AuctionService) { }
+  constructor(private auctionService: AuctionService,
+    private router: Router) { }
 
   auctions: Array<Auction> = [];
 
@@ -21,6 +23,17 @@ export class ListAuctionComponent implements OnInit {
     this.auctionService.getAllAuctions().subscribe(response => {
       this.auctions = response;
     });
+  }
+
+  bid(auction: Auction) {
+    // Route to bid page
+    let auctionId = auction._id as string;
+
+    // this.router.navigate(['/bidding']);
+    this.router.navigate(['/','bidding', auctionId]);
+    // this.router.navigate(['/', 'todos', 'edit', todo._id]);
+    
+
   }
 
 }

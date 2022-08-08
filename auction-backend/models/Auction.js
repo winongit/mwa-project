@@ -52,6 +52,29 @@ const Schema = new mongoose.Schema({
         _id: String,
         name: String,
         email: String
-    }   
+    },
+    bids:[{
+        bid_amount: Number,
+        status: String,
+        created_at: {
+            type: Date,
+            default: Date.now
+        },
+        created_by: {
+            _id: String,
+            name: String,
+            email: String
+        },
+        modified_at: {
+            type: Date,
+            default: Date.now
+        },
+        modified_by: {
+            _id: String,
+            name: String,
+            email: String
+        }
+    }]
+
 });
 module.exports = mongoose.model('Auction', Schema);

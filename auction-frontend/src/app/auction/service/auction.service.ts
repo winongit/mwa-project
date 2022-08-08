@@ -30,4 +30,8 @@ export class AuctionService {
   getAllAuctions() {
     return this.http.get<Array<Auction>>(`${this.baseUrl}/auctions`);
   }
+
+  getAuction(id: string) {
+    return this.http.get<Auction>(`${this.baseUrl}/auctions/${id}`);
+  }
 }

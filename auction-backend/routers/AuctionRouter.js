@@ -1,6 +1,6 @@
 const express = require('express');
-const router = require('./UserRouter');
-const { createAuction, uploadPhoto, getAllAuctions } = require('../controllers/AuctionController');
+const router = express.Router();
+const { createAuction, uploadPhoto, getAllAuctions, getAuction } = require('../controllers/AuctionController');
 
 const multer = require('multer');
 const path = require('path');
@@ -40,6 +40,8 @@ const upload = multer({storage: storage,
 
 // (/auctions)
 router.get('/', getAllAuctions);
+
+router.get('/:auction_id', getAuction);
 
 router.post('/', createAuction);
 

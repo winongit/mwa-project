@@ -1,4 +1,4 @@
-const {createAuction, getAllAuctions} = require('../services/AuctionService');
+const {createAuction, getAllAuctions, getAuction} = require('../services/AuctionService');
 
 module.exports.createAuction = async(req, res) => {
     try {
@@ -9,7 +9,7 @@ module.exports.createAuction = async(req, res) => {
         res.json(auction);
     } catch (err) {
         console.log(err)
-        return res.status(400).send({
+        res.status(400).send({
             message: err
         });
     }
@@ -24,9 +24,23 @@ module.exports.getAllAuctions = async(req, res) => {
         let auctions = await getAllAuctions();
         res.json(auctions);
     } catch (error) {
-        console.log(err);
-        return res.status(400).send({
-            message: err
+        console.log(error);
+        res.status(400).send({
+            message: ererrorr
         });
     } 
+}
+
+module.exports.getAuction = async (req, res) => {
+    try {
+        const {auction_id} = req.params;
+        let auction = await getAuction(auction_id);
+        res.json(auction);
+    } catch (error) {
+        console.log(error);
+        res.status(400).send({
+            message: error
+        });
+    } 
+    
 }
