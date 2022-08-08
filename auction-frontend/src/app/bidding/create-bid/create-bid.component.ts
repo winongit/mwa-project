@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
 import { mergeMap } from 'rxjs';
@@ -27,7 +28,8 @@ export class CreateBidComponent implements OnInit {
       private ar: ActivatedRoute,
       private auctionService: AuctionService,
       private bidService: BidService,
-      private fb: FormBuilder  
+      private fb: FormBuilder,
+      private _snackBar: MatSnackBar,  
       ) { 
        
         this.ar.paramMap.pipe(
@@ -38,7 +40,7 @@ export class CreateBidComponent implements OnInit {
           this.auction = response;
 
           this.bidForm = this.fb.group({
-            bid_amount: [0, [Validators.required, Validators.min(5000)]]
+            bid_amount: [0, [Validators.required, Validators.min(this.auction.price)]]
           });
   
           this.dataSource = new MatTableDataSource<Bid>(this.auction.bids);
@@ -59,6 +61,9 @@ export class CreateBidComponent implements OnInit {
       this.auction = response;
       
       this.dataSource = new MatTableDataSource<Bid>(this.auction.bids);
+      this._snackBar.open('Bid submitted successfully', '', {
+        duration: 5000
+      });
     });
   }
 
