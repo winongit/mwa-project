@@ -38,7 +38,7 @@ module.exports.getAllAuctions = async(req, res) => {
 module.exports.getAuction = async (req, res) => {
     try {
         const {auction_id} = req.params;
-        let auction = await getAuction(auction_id);
+        let auction = await getAuction(req, res, auction_id);
         res.json(auction);
     } catch (error) {
         console.log(error);

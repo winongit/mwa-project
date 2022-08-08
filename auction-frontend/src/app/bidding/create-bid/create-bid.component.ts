@@ -27,7 +27,7 @@ export class CreateBidComponent implements OnInit {
   dataSource!: MatTableDataSource<Bid>;
 
   logInUser: any;
-  buttonDisable: boolean = false;
+  buttonDisable: boolean = true;
 
   constructor(private router: Router, 
       private ar: ActivatedRoute,

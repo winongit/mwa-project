@@ -10,11 +10,15 @@ async function createAuction(auction) {
 
 async function getAllAuctions() {
     let auctions = await Auction.find({});
+
     return auctions;
 }
 
-async function getAuction(auction_id) {
+async function getAuction(req, res, auction_id) {
     let auction = await Auction.findById(auction_id);
+
+    auction.bids = auction.bids.filter(a => a._id === req.user._id);
+
     return auction;
 }
 
