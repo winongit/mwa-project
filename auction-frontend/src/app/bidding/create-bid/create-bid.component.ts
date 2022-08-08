@@ -17,13 +17,12 @@ import { BidService } from '../service/bid.service';
   styleUrls: ['./create-bid.component.scss']
 })
 
-
 export class CreateBidComponent implements OnInit {
   bidForm !: FormGroup;
 
   auction!: Auction;
 
-  displayedColumns: string[] = ['bid_amount', 'updated_at'];
+  displayedColumns: string[] = ['bid_amount', 'updated_at', 'can_delete'];
   dataSource!: MatTableDataSource<Bid>;
 
   logInUser: any;
@@ -61,6 +60,10 @@ export class CreateBidComponent implements OnInit {
     
   }
 
+  refreshAuction(auction_id: string) {
+
+  }
+
   checkUserForBidding() {
     if (this.logInUser._id === this.auction.created_by?._id) {
       this.buttonDisable = true;
@@ -84,6 +87,8 @@ export class CreateBidComponent implements OnInit {
   
   refreshBid() {
     let bids = this.auction.bids;
+    console.log('i am on bids');
+    console.log(bids);
     bids?.sort((a, b) => {
       let a_modify_at = a.modified_at as Number;
       let b_modify_at = b.modified_at as Number;
@@ -92,7 +97,26 @@ export class CreateBidComponent implements OnInit {
       if (a_modify_at < b_modify_at) return 1;
       return 0;
     });
+
+    if (bids &&bids?.length > 0) {
+      bids[0].can_delete = true;
+    }
+
     this.dataSource = new MatTableDataSource<Bid>(bids);
+  }
+
+  deleteBid(bid: Bid) {
+    console.log('delete bid');
+    if (confirm('Are you sure you want to delete this bid?')) {
+      let bid_id = bid._id as string;
+      let auction_id = this.auction._id as string;
+      this.bidService.deleteBid(bid_id, auction_id).subscribe(response => {
+        this.auction.bids = this.auction.bids?.filter(b => b._id !== bid_id)
+        this.refreshBid();
+      });
+      
+    }
+
   }
 
 }

@@ -6,15 +6,17 @@ import { AuthGuard } from '../core/guards/authguard/auth.guard';
 import { AuctionService } from '../auction/service/auction.service';
 import { SharedModule } from '../shared/shared.module';
 import { BidService } from './service/bid.service';
+import { ListAuctionComponent } from './list-auction/list-auction.component';
 
 const routes: Routes = [
-  {path: '', component: CreateBidComponent,  canActivate: [AuthGuard] },
+  {path: '', component: ListAuctionComponent,  canActivate: [AuthGuard] },
   {path: ':auction_id', component: CreateBidComponent,  canActivate: [AuthGuard] }, 
 ]
 
 @NgModule({
   declarations: [
-    CreateBidComponent
+    CreateBidComponent,
+    ListAuctionComponent
   ],
   imports: [
     CommonModule,

@@ -37,6 +37,15 @@
         <th mat-header-cell *matHeaderCellDef> Submitted Date Time </th>
         <td mat-cell *matCellDef="let bid"> {{bid.created_at | date:'medium'}}</td>
         </ng-container>
+
+        <ng-container matColumnDef="can_delete">
+            <th mat-header-cell *matHeaderCellDef> Can delete </th>
+            <td mat-cell *matCellDef="let bid"> 
+                <button mat-mini-fab color="warn" *ngIf="bid.can_delete">
+                    <mat-icon (click)="deleteBid(bid)">delete</mat-icon>
+                </button>
+            </td>
+        </ng-container>
     
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>   

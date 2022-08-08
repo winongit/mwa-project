@@ -6,7 +6,7 @@ import { MaterialModule } from '../shared/material.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
 import { AuctionService } from './service/auction.service';
-import { ListAuctionComponent } from './list-auction/list-auction.component';
+import { ListAuctionComponent } from '../bidding/list-auction/list-auction.component';
 import { AuthGuard } from '../core/guards/authguard/auth.guard';
 import { MyAuctionComponent } from './my-auction/my-auction.component';
 import { ExtendAuctionComponent } from './extend-auction/extend-auction.component';
@@ -18,7 +18,7 @@ const routes: Routes = [
 ]
 
 @NgModule({
-  declarations: [CreateAuctionComponent, ListAuctionComponent, MyAuctionComponent, ExtendAuctionComponent],
+  declarations: [CreateAuctionComponent, MyAuctionComponent, ExtendAuctionComponent],
   imports: [CommonModule, SharedModule, RouterModule.forChild(routes)],
   providers: [AuctionService],
 })

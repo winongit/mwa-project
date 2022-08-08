@@ -13,5 +13,6 @@ export interface Bid {
         _id: string,
         name: string,
         email: string
-    }
+    },
+    can_delete?: boolean
 }

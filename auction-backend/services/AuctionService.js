@@ -36,7 +36,7 @@ async function getAllAuctions(req, res) {
 async function getAuction(req, res, auction_id) {
     let auction = await Auction.findById(auction_id);
 
-    auction.bids = auction.bids.filter(a => a._id === req.user._id);
+    auction.bids = auction.bids.filter(a => a.created_by._id === req.user._id);
 
     return auction;
 }

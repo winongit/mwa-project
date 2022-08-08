@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/core/services/authservice/auth.service';
 import { Auction } from 'src/app/shared/models/auction';
-import { AuctionService } from '../service/auction.service';
+import { AuctionService } from '../../auction/service/auction.service';
 
 @Component({
   selector: 'app-list-auction',

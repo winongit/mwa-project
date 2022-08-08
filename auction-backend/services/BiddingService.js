@@ -1,6 +1,7 @@
+const { mongo } = require('mongoose');
 const Auction = require('../models/Auction');
 
-async function createBid(bid, auctionId) {
+async function createBid(req, res, bid, auctionId) {
     bid.status = 'A';
     bid.created_at = Date.now();
     bid.updated_at = Date.now();
@@ -9,7 +10,7 @@ async function createBid(bid, auctionId) {
     console.log(auctionId);
     console.log(bid);
 
-    let auctionFromDB = await Auction.findById(auctionId);
+   let auctionFromDB = await Auction.findById(auctionId);
 
     if (auctionFromDB.created_by._id === bid.created_by.id) {
         throw 'bid is not allowed for the auction creation user'
@@ -24,8 +25,35 @@ async function createBid(bid, auctionId) {
         {$push: {bids: bid}});
 
     auctionFromDB = await Auction.findById(auctionId);
+    
+    auctionFromDB.bids = auctionFromDB.bids.filter(a => a.created_by._id === req.user._id);
 
     return auctionFromDB;
-} 
+}
 
-module.exports = {createBid}
+async function deleteBid(req, res, auction_id, bid_id) {
+    let auctionFromDB = await Auction.findById(auction_id);
+    console.log(auctionFromDB);
+
+    console.log('bid id' + bid_id);
+
+    let bidFromDB = auctionFromDB.bids.
+        find(b => b._id == bid_id);
+
+    console.log(bidFromDB);
+
+    if (!bidFromDB) {
+        throw 'Invalid bid'
+    }
+
+    if (bidFromDB.created_by._id !== req.user._id) {
+        throw 'You are not allowed to delete this bid'
+    }
+
+    let response = await Auction.updateOne({_id: auction_id},
+        {$pull: {"bids": {_id: bid_id} } });
+
+    return response;   
+}
+
+module.exports = {createBid, deleteBid}
