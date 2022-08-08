@@ -23,9 +23,9 @@ const Schema = new mongoose.Schema({
         type: String,
         trim: true,
     },
-    price: {
+    max_bid_amount: {
         type: Number,
-        required: true,
+        required: false,
     },
     end_time: {
         type: Date,

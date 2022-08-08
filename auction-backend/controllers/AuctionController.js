@@ -25,12 +25,12 @@ module.exports.uploadPhoto = (req, res) => {
 
 module.exports.getAllAuctions = async(req, res) => {
     try {
-        let auctions = await getAllAuctions();
+        let auctions = await getAllAuctions(req, res);
         res.json(auctions);
     } catch (error) {
         console.log(error);
         res.status(400).send({
-            message: ererrorr
+            message: error
         });
     } 
 }
