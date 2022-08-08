@@ -5,8 +5,10 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
 import { mergeMap } from 'rxjs';
 import { AuctionService } from 'src/app/auction/service/auction.service';
+import { AuthService } from 'src/app/core/services/authservice/auth.service';
 import { Auction } from 'src/app/shared/models/auction';
 import { Bid } from 'src/app/shared/models/bid';
+import { User } from 'src/app/user/models/user';
 import { BidService } from '../service/bid.service';
 
 @Component({
@@ -24,12 +26,16 @@ export class CreateBidComponent implements OnInit {
   displayedColumns: string[] = ['bid_amount', 'updated_at'];
   dataSource!: MatTableDataSource<Bid>;
 
+  logInUser: any;
+  buttonDisable: boolean = false;
+
   constructor(private router: Router, 
       private ar: ActivatedRoute,
       private auctionService: AuctionService,
       private bidService: BidService,
       private fb: FormBuilder,
       private _snackBar: MatSnackBar,  
+      private authService: AuthService
       ) { 
        
         this.ar.paramMap.pipe(
@@ -42,9 +48,11 @@ export class CreateBidComponent implements OnInit {
           this.bidForm = this.fb.group({
             bid_amount: [0, [Validators.required, Validators.min(this.auction.price)]]
           });
-  
-          this.dataSource = new MatTableDataSource<Bid>(this.auction.bids);
 
+          console.log(this.authService.getLogInUser());
+          this.logInUser = this.authService.getLogInUser();
+          this.refreshBid();
+          this.checkUserForBidding();
         
         });
       }
@@ -53,18 +61,38 @@ export class CreateBidComponent implements OnInit {
     
   }
 
+  checkUserForBidding() {
+    if (this.logInUser._id === this.auction.created_by?._id) {
+      this.buttonDisable = true;
+    }
+  }
+
   bid() {
+    
     let bid = {...this.bidForm.value};
 
     let auctionId = this.auction._id as string;
       this.bidService.createBid(bid, auctionId).subscribe(response => {
       this.auction = response;
       
-      this.dataSource = new MatTableDataSource<Bid>(this.auction.bids);
+      this.refreshBid();
       this._snackBar.open('Bid submitted successfully', '', {
         duration: 5000
       });
     });
+  }
+  
+  refreshBid() {
+    let bids = this.auction.bids;
+    bids?.sort((a, b) => {
+      let a_modify_at = a.modified_at as Number;
+      let b_modify_at = b.modified_at as Number;
+
+      if (a_modify_at > b_modify_at) return - 1;
+      if (a_modify_at < b_modify_at) return 1;
+      return 0;
+    });
+    this.dataSource = new MatTableDataSource<Bid>(bids);
   }
 
 }

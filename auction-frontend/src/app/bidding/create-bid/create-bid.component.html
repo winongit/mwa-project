@@ -23,7 +23,7 @@
             <input matInput  type="number" formControlName="bid_amount">
           </mat-form-field>
         
-        <button mat-raised-button color="primary" (click)="bid()" [disabled]="!bidForm.valid">Bid</button>
+        <button mat-raised-button color="primary" (click)="bid()" [disabled]="!bidForm.valid || !buttonDisable">Bid</button> 
         </form>
     </mat-card-actions>
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">

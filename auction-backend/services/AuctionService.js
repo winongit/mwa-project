@@ -2,6 +2,7 @@ const Auction = require('../models/Auction')
 
 async function createAuction(auction) {
     auction.status = 'A';
+    auction.created_at = Date.now();
 
     let auctionFromDB = await Auction.create(auction);
     return auctionFromDB;

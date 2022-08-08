@@ -6,6 +6,9 @@ module.exports.createBid = async(req, res) => {
         const {auction_id} = req.params;
         const bidFromWeb = req.body;
 
+        bidFromWeb.created_by = req.user;
+        bidFromWeb.modified_by = req.user;
+
         let bid = await createBid(bidFromWeb, auction_id);
         res.json(bid);
     } catch (err) {

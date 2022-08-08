@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/core/services/authservice/auth.service';
 import { Auction } from 'src/app/shared/models/auction';
 import { AuctionService } from '../service/auction.service';
 
@@ -10,8 +11,10 @@ import { AuctionService } from '../service/auction.service';
 })
 export class ListAuctionComponent implements OnInit {
 
+  logInUser: any;
   constructor(private auctionService: AuctionService,
-    private router: Router) { }
+    private router: Router,
+    private authService: AuthService) { }
 
   auctions: Array<Auction> = [];
 
@@ -22,6 +25,7 @@ export class ListAuctionComponent implements OnInit {
   loadAllAuctions() {
     this.auctionService.getAllAuctions().subscribe(response => {
       this.auctions = response;
+      this.logInUser = this.authService.getLogInUser();
     });
   }
 

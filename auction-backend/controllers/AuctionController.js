@@ -4,7 +4,11 @@ module.exports.createAuction = async(req, res) => {
     try {
         console.log('I am on create auction');
         const auctionFromWeb = req.body;
-        console.log(auctionFromWeb);
+
+        
+        auctionFromWeb.created_by = req.user;
+        auctionFromWeb.modified_by = req.user;
+        
         let auction = await createAuction(auctionFromWeb);
         res.json(auction);
     } catch (err) {

@@ -11,6 +11,10 @@ async function createBid(bid, auctionId) {
 
     let auctionFromDB = await Auction.findById(auctionId);
 
+    if (auctionFromDB.created_by._id === bid.created_by.id) {
+        throw 'bid is not allowed for the auction creation user'
+    }
+
     if (bid.bid_amount < auctionFromDB.price) {
         throw 'bid amount is less than auction amount';
     }
