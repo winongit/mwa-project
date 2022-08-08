@@ -1,4 +1,4 @@
-const {createAuction, getAllAuctions, getAuction} = require('../services/AuctionService');
+const {createAuction, getAllAuctions, getAuction, cancelAuction, extendAuction} = require('../services/AuctionService');
 
 module.exports.createAuction = async(req, res) => {
     try {
@@ -45,6 +45,37 @@ module.exports.getAuction = async (req, res) => {
         res.status(400).send({
             message: error
         });
-    } 
-    
+    }    
+}
+
+module.exports.cancelAuction = async(req, res) => {
+    try {
+        const {auction_id} = req.params;
+
+        let resposne = await cancelAuction(auction_id);
+        res.json(resposne);
+        
+    } catch (error) {
+        console.log(error);
+        res.status(400).send({
+            message: error
+        });
+    }
+}
+
+module.exports.extendAuction = async(req, res) => {
+    try {
+        const {auction_id} = req.params;
+        const {new_end_time} = req.body;
+
+        let resposne = await extendAuction(req, res, auction_id, new_end_time)
+        res.json(resposne);
+
+    } catch (error) {
+        console.log(error);
+        res.status(400).send({
+            message: error
+        });   
+    }
+
 }

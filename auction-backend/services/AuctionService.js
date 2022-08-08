@@ -12,7 +12,7 @@ async function getAllAuctions(req, res) {
     let authenticatedUserId = req.user._id;
 
     // Filtering Auction
-    let auctions = await Auction.find({});
+    let auctions = await Auction.find({}).sort({created_at: -1});
 
     // loop through array;
     auctions.forEach(auction => {
@@ -41,4 +41,55 @@ async function getAuction(req, res, auction_id) {
     return auction;
 }
 
-module.exports = {createAuction, getAllAuctions, getAuction};
+async function cancelAuction(auction_id) {
+    let auctionFromDB = await Auction.findById(auction_id);
+
+    // check status
+    if (auctionFromDB.status !== 'A') {
+        throw 'Auction already expired or cancelled';
+    }
+
+    let current_time = Date.now();
+    if (auctionFromDB.end_time < current_time) {
+        throw 'Auction already expired';
+    }
+
+    let response = Auction.updateOne({_id: auction_id}, {
+        status: 'C',
+        modifed_at: current_time
+    });
+
+    return response;
+}
+
+async function extendAuction(req, res, auction_id, new_end_time) {
+    let auctionFromDB = await Auction.findById(auction_id);
+
+    // check user 
+    if (req.user._id !== auctionFromDB.created_by._id) {
+        throw 'You are not allowed to extend this auction';
+    }
+
+    // check status
+    if (auctionFromDB.status !== 'A') {
+        throw 'Auction already expired or cancelled';
+    }
+
+    let current_time = Date.now();
+    if (auctionFromDB.end_time < current_time) {
+        throw 'Auction already expired';
+    }
+
+    if (new_end_time < current_time) {
+        throw 'Invalid auction end time'
+    }
+
+    let response = Auction.updateOne({_id: auction_id}, {
+        end_time: new_end_time,
+        modifed_at: current_time
+    });
+
+    return response;  
+}
+
+module.exports = {createAuction, getAllAuctions, getAuction, cancelAuction, extendAuction};

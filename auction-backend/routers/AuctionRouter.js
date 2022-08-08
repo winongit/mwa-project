@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { createAuction, uploadPhoto, getAllAuctions, getAuction } = require('../controllers/AuctionController');
+const { createAuction, uploadPhoto, getAllAuctions, getAuction,cancelAuction, extendAuction } = require('../controllers/AuctionController');
 
 const multer = require("multer");
 const path = require("path");
@@ -46,5 +46,9 @@ router.get('/:auction_id', getAuction);
 router.post('/', createAuction);
 
 router.post("/upload", upload.single("picture"), uploadPhoto);
+
+router.patch('/:auction_id/cancel', cancelAuction);
+
+router.patch('/:auction_id/extend', extendAuction);
 
 module.exports = router;

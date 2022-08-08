@@ -8,16 +8,17 @@ import { SharedModule } from '../shared/shared.module';
 import { AuctionService } from './service/auction.service';
 import { ListAuctionComponent } from './list-auction/list-auction.component';
 import { AuthGuard } from '../core/guards/authguard/auth.guard';
+import { MyAuctionComponent } from './my-auction/my-auction.component';
+import { ExtendAuctionComponent } from './extend-auction/extend-auction.component';
 // /auction/
 
-// /users/
 const routes: Routes = [
-  {path: '', component: ListAuctionComponent,  canActivate: [AuthGuard] },
+  {path: '', component: MyAuctionComponent,  canActivate: [AuthGuard] },
   {path: 'create', component: CreateAuctionComponent,  canActivate: [AuthGuard] } 
 ]
 
 @NgModule({
-  declarations: [CreateAuctionComponent, ListAuctionComponent],
+  declarations: [CreateAuctionComponent, ListAuctionComponent, MyAuctionComponent, ExtendAuctionComponent],
   imports: [CommonModule, SharedModule, RouterModule.forChild(routes)],
   providers: [AuctionService],
 })
