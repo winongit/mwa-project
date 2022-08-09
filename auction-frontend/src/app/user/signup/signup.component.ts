@@ -16,6 +16,7 @@ export class SignupComponent implements OnInit {
   selectedFile?: File;
   user!: User;
   preview: string = '';
+  imageSelect: boolean = false;
   titleAlert: string = 'This field is required';
 
   constructor(
@@ -67,8 +68,8 @@ export class SignupComponent implements OnInit {
   getErrorEmail() {
     return this.signUpForm?.get('email')?.hasError('required')
       ? this.titleAlert
-      : this.signUpForm?.get('email')?.hasError('pattern')
-      ? 'Not a valid emailaddress'
+      : this.signUpForm?.get('email')?.hasError('email')
+      ? 'Not a valid email address'
       : this.signUpForm?.get('email')?.hasError('alreadyInUse')
       ? 'This emailaddress is already in use'
       : '';
@@ -99,6 +100,7 @@ export class SignupComponent implements OnInit {
     };
 
     reader.readAsDataURL(this.selectedFile as Blob);
+    this.imageSelect = true;
   }
 
   onSubmit(user: User) {
