@@ -1,4 +1,5 @@
-import { Observable } from 'rxjs';
+import { catchError, retry } from 'rxjs/operators';
+import { Observable, throwError } from 'rxjs';
 import { User } from '../models/user';
 import { HttpClient, HttpEvent, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -11,7 +12,9 @@ export class UserService {
   constructor(private http: HttpClient) {}
 
   signIn(user: User): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/users/auth/signin`, user);
+    return this.http
+      .post<any>(`${this.baseUrl}/users/auth/signin`, user)
+      .pipe(catchError(this.handleError));
   }
 
   signup(user: User): Observable<any> {
@@ -37,5 +40,13 @@ export class UserService {
     );
 
     return this.http.request(req);
+  }
+
+  handleError(error: any) {
+    let errorMessage = '';
+    errorMessage = `${error?.error?.message}`;
+    return throwError(() => {
+      return errorMessage;
+    });
   }
 }
