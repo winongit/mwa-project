@@ -36,7 +36,8 @@ exports.checkEmail = async (req, res) => {
 
 module.exports.uploadPhoto = (req, res) => {
   try {
-    res.status(200).json({ filename: req.file.filename });
+    console.log(req.file);
+    res.status(200).json({ filename: req.file.url });
   } catch (err) {
     console.log(err);
   }

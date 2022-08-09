@@ -24,9 +24,17 @@ const signIn = async (user) => {
         message: "Authentication failed. Invalid user or password.",
       };
     }
+
+    console.log(foundUser.imgUrl);
+
     return {
       token: jwt.sign(
-        { email: foundUser.email, name: foundUser.name, _id: foundUser._id, imgUrl: foundUser.imgUrl },
+        {
+          email: foundUser.email,
+          name: foundUser.name,
+          _id: foundUser._id,
+          imgUrl: foundUser.imgUrl,
+        },
         "SECRET",
         {
           expiresIn: "24h",

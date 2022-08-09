@@ -13,7 +13,7 @@ const fileFilterFunc = (req, file, cb) => {
     file.mimetype !== "image/png"
   ) {
     cb("invalidfiletype", false);
-  } else {
+} else {
     cb(null, true);
   }
 };
