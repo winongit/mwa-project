@@ -7,12 +7,6 @@ env:
   AZURE_WEBAPP_NAME: winmwatest # set this to your application's name
   AZURE_WEBAPP_PACKAGE_PATH: "." # set this to the path to your web app project, defaults to the repository root
   NODE_VERSION: "16.x" # set this to the node version to use
-  AZURE_CONNECTION_STRING: "DefaultEndpointsProtocol=https;AccountName=skkazure;AccountKey=BeI+kqXv2v4KadlERTB27q5Ee88lNuxfgQY2g9o1qrg7xboGVR/medHuYhQjMNkdMzU7c2XmjXuo+ASty01pmw==;EndpointSuffix=core.windows.net"
-  AZURE_ACCOUNT_NAME: skkazure
-  AZURE_ACCESS_KEY: BeI+kqXv2v4KadlERTB27q5Ee88lNuxfgQY2g9o1qrg7xboGVR/medHuYhQjMNkdMzU7c2XmjXuo+ASty01pmw==
-  AZURE_CONTAINER: photos
-  AZURE_FILE_PATH: https://skkazure.blob.core.windows.net/photos/
-  MONGO_URI: mongodb://localhost:27017/auction
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -20,8 +14,17 @@ jobs:
       run:
         working-directory: ./frontend
     steps:
+      - name: "Create env file"
+        run: |
+          touch .env
+          echo MONGO_URI=mongodb://localhost:27017/auction >> .env
+          echo AZURE_CONNECTION_STRING='DefaultEndpointsProtocol=https;AccountName=skkazure;AccountKey=BeI+kqXv2v4KadlERTB27q5Ee88lNuxfgQY2g9o1qrg7xboGVR/medHuYhQjMNkdMzU7c2XmjXuo+ASty01pmw==;EndpointSuffix=core.windows.net' >> .env
+          echo AZURE_ACCOUNT_NAME=skkazure >> .env
+          echo AZURE_ACCESS_KEY=BeI+kqXv2v4KadlERTB27q5Ee88lNuxfgQY2g9o1qrg7xboGVR/medHuYhQjMNkdMzU7c2XmjXuo+ASty01pmw== >> .env
+          echo AZURE_CONTAINER=photos >> .env
+          echo AZURE_FILE_PATH=https://skkazure.blob.core.windows.net/photos/ >> .env
+          cat .env
       - uses: actions/checkout@v3
-
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
