@@ -52,6 +52,7 @@ export class SigninComponent implements OnInit {
   }
 
   onSubmit(user: User) {
+    if (!this.signInForm.valid) return;
     try {
       this.userService.signIn(user).subscribe((res) => {
         localStorage.setItem('token', res.token);

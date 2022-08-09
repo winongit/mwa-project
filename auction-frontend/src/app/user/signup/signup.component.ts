@@ -1,8 +1,9 @@
+import { User } from './../models/user';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { User } from '../models/user';
 import { Router } from '@angular/router';
 import { UserService } from '../services/user.service';
+import { HttpResponse, HttpStatusCode } from '@angular/common/http';
 
 @Component({
   selector: 'app-signup',
@@ -12,6 +13,9 @@ import { UserService } from '../services/user.service';
 })
 export class SignupComponent implements OnInit {
   signUpForm!: FormGroup;
+  selectedFile?: File;
+  user!: User;
+  preview: string = '';
   titleAlert: string = 'This field is required';
 
   constructor(
@@ -29,6 +33,10 @@ export class SignupComponent implements OnInit {
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, this.checkPassword]],
+      confirmPassword: [
+        '',
+        [Validators.required, this.checkConfirmPassword.bind(this)],
+      ],
     });
   }
 
@@ -50,6 +58,12 @@ export class SignupComponent implements OnInit {
       : null;
   }
 
+  checkConfirmPassword(control: any) {
+    const password = this.signUpForm?.controls['password'].value;
+    const confirmPassword = control.value;
+    return password === confirmPassword ? null : { passwordNotMatch: true };
+  }
+
   getErrorEmail() {
     return this.signUpForm?.get('email')?.hasError('required')
       ? this.titleAlert
@@ -68,12 +82,45 @@ export class SignupComponent implements OnInit {
       : '';
   }
 
+  getErrorConfirmPassword() {
+    return this.signUpForm?.get('confirmPassword')?.hasError('required')
+      ? this.titleAlert
+      : this.signUpForm?.get('confirmPassword')?.hasError('passwordNotMatch')
+      ? 'Password Not Match'
+      : '';
+  }
+
+  selectFile(event: any): void {
+    this.selectedFile = event.target.files[0];
+    const reader = new FileReader();
+
+    reader.onload = (e: any) => {
+      this.preview = e.target.result;
+    };
+
+    reader.readAsDataURL(this.selectedFile as Blob);
+  }
+
   onSubmit(user: User) {
     if (!this.signUpForm.valid) return;
     try {
-      this.userService.signup(user).subscribe((res) => {
-        this.router.navigate(['user/signin']);
-      });
+      this.user = { ...this.signUpForm.value };
+      this.upload(this.selectedFile);
     } catch (err) {}
+  }
+
+  upload(file: File | undefined): void {
+    if (file) {
+      this.userService.upload(file).subscribe((event: any) => {
+        if (event instanceof HttpResponse) {
+          if (event.status == HttpStatusCode.Ok) {
+            this.user.imgUrl = event.body.filename as string;
+            this.userService.signup(this.user).subscribe((res) => {
+              this.router.navigate(['user/signin']);
+            });
+          }
+        }
+      });
+    }
   }
 }
