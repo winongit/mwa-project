@@ -37,6 +37,9 @@ async function getAuction(req, res, auction_id) {
 
   auction.bids = auction.bids.filter((a) => a.created_by._id === req.user._id);
 
+  let max = Math.max(...auction.bids.map((b) => b.bid_amount));
+  auction.max_bid_amount = max;
+
   return auction;
 }
 
