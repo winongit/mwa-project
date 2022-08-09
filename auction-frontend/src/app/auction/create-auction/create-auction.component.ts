@@ -2,6 +2,7 @@ import { HttpResponse, HttpStatusCode } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { MatSnackBar, MatSnackBarRef, SimpleSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 import { Auction } from 'src/app/shared/models/auction';
 import { AuctionService } from '../service/auction.service';
 
@@ -40,7 +41,8 @@ export class CreateAuctionComponent implements OnInit {
 
   previews: string[] = [];
 
-  constructor(private fb: FormBuilder, private auctionService: AuctionService, private _snackBar: MatSnackBar) { 
+  constructor(private fb: FormBuilder, private auctionService: AuctionService, private _snackBar: MatSnackBar,
+    private router: Router) { 
     this.auctionForm = this.fb.group({  
       title: ['', Validators.required],
       category: ['', Validators.required],
@@ -127,8 +129,7 @@ export class CreateAuctionComponent implements OnInit {
               ).subscribe(res => {
                 this.openSnackBar('Auction announced', 'Navigate')
                   .onAction().subscribe(() => {
-                    // route to list of auction page.
-                    console.log('route list of auction');
+                    this.router.navigate(['/','auction']);
                   });
               });
             }

@@ -9,7 +9,7 @@ export interface Auction {
     imgUrl?: string;
     end_time: number;
     created_at?: number;
-    created_by?: {
+    created_by: {
         _id: string,
         name: string,
         email: string

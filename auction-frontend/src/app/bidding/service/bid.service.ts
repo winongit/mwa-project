@@ -15,4 +15,8 @@ export class BidService {
   createBid(bid: Bid, auction_id: string) {
     return this.http.post<Auction>(`${this.baseUrl}/bid/auction/${auction_id}`, bid);
   }
+
+  deleteBid(bid_id: string, auction_id: string) {
+    return this.http.delete(`${this.baseUrl}/bid/${bid_id}/auction/${auction_id}`);
+  }
 }

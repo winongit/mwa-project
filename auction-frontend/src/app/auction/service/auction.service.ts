@@ -34,4 +34,12 @@ export class AuctionService {
   getAuction(id: string) {
     return this.http.get<Auction>(`${this.baseUrl}/auctions/${id}`);
   }
+
+  cancelAuction(id: string) {
+    return this.http.patch(`${this.baseUrl}/auctions/${id}/cancel`, {});
+  }
+
+  extendAuction(id: string, extnedObj: any) {
+    return this.http.patch(`${this.baseUrl}/auctions/${id}/extend`, extnedObj);
+  }
 }

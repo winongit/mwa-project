@@ -23,9 +23,9 @@ const Schema = new mongoose.Schema({
         type: String,
         trim: true,
     },
-    price: {
+    max_bid_amount: {
         type: Number,
-        required: true,
+        required: false,
     },
     end_time: {
         type: Date,
@@ -54,6 +54,7 @@ const Schema = new mongoose.Schema({
         email: String
     },
     bids:[{
+       
         bid_amount: Number,
         status: String,
         created_at: {

@@ -5,6 +5,8 @@ const {
   uploadPhoto,
   getAllAuctions,
   getAuction,
+  cancelAuction,
+  extendAuction,
 } = require("../controllers/AuctionController");
 
 const multer = require("multer");
@@ -32,5 +34,9 @@ router.get("/:auction_id", getAuction);
 router.post("/", createAuction);
 
 router.post("/upload", upload.single("picture"), uploadPhoto);
+
+router.patch("/:auction_id/cancel", cancelAuction);
+
+router.patch("/:auction_id/extend", extendAuction);
 
 module.exports = router;

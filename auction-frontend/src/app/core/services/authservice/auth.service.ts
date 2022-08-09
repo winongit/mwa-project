@@ -18,4 +18,17 @@ export class AuthService {
       return false;
     }
   }
+
+  getLogInUser() {
+    const token = localStorage.getItem('token'); // get token from local storage
+    if (token) {
+      const payload = atob(token.split('.')[1]); // decode payload of token
+      const parsedPayload = JSON.parse(payload); // convert payload into an Object
+
+      if (parsedPayload.exp > Date.now() / 1000) // check if token is expired
+        return parsedPayload;
+
+    }
+    return null;
+  }
 }
