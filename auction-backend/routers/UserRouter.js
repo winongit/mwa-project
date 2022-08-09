@@ -9,23 +9,13 @@ const {
 const multer = require("multer");
 const path = require("path");
 const { fileFilterFunc } = require("../common/UploadPhotosConfig");
-
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, path.join(__dirname, "../assets/pics/user"));
-  },
-  filename: function (req, file, cb) {
-    const uniqueSuffiix = Date.now() + "_" + file.originalname;
-    console.log(uniqueSuffiix);
-    cb(null, uniqueSuffiix);
-  },
-});
-
-const upload = multer({ storage: storage, fileFilter: fileFilterFunc });
+const upload = require("../common/CloudUpload");
 
 router.post("/auth/signUp", register);
 router.post("/auth/signIn", login);
 router.get("/checkEmail", checkEmail);
-router.post("/upload", upload.single("picture"), uploadPhoto);
+router.post("/upload", upload.single("picture"), function (req, res, next) {
+  res.status(200).send({ file: process.env.AZURE_FILE_PATH + req.filename });
+});
 
 module.exports = router;
