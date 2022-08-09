@@ -2,21 +2,26 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Auction } from 'src/app/shared/models/auction';
 import { Bid } from 'src/app/shared/models/bid';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class BidService {
+  constructor(private http: HttpClient) {}
 
-  constructor(private http: HttpClient) { }
-
-  private baseUrl = 'http://localhost:3000';
+  private apiURL = environment.apiUrl;
 
   createBid(bid: Bid, auction_id: string) {
-    return this.http.post<Auction>(`${this.baseUrl}/bid/auction/${auction_id}`, bid);
+    return this.http.post<Auction>(
+      `${this.apiURL}/bid/auction/${auction_id}`,
+      bid
+    );
   }
 
   deleteBid(bid_id: string, auction_id: string) {
-    return this.http.delete(`${this.baseUrl}/bid/${bid_id}/auction/${auction_id}`);
+    return this.http.delete(
+      `${this.apiURL}/bid/${bid_id}/auction/${auction_id}`
+    );
   }
 }
