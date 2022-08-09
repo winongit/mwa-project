@@ -2,6 +2,9 @@ const { parentPort } = require("worker_threads");
 const Cabin = require("cabin");
 const { Signale } = require("signale");
 const mongoose = require("mongoose");
+require("dotenv").config();
+// mongodb connection
+
 
 const Auction = require("../models/Auction");
 const {
@@ -32,9 +35,12 @@ if (parentPort) {
 //https://blog.logrocket.com/getting-started-with-bree-js/
 
 (async () => {
-  await mongoose.connect("mongodb://localhost:27017/AuctionDB", {
+  await mongoose
+  .connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
-  });
+  })
+  .then(() => console.log("Connected Successfully"))
+  .catch((err) => console.log(err));
 
   const auctions = await getAuctionFor(param);
 
