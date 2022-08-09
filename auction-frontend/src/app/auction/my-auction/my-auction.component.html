@@ -4,15 +4,15 @@
     *ngFor="let auction of auctions"
   >
     <mat-card-header>
-      <div mat-card-avatar class="example-header-image" style="background-image: url(http://localhost:3000/pictures/user/{{auction.created_by.imgUrl}});"></div>
+      <div mat-card-avatar class="example-header-image" style="background-image: url({{auction.created_by.imgUrl}});"></div>
       <mat-card-title>{{ auction.title }}</mat-card-title>
       <mat-card-subtitle>{{ auction.category }}</mat-card-subtitle>
     </mat-card-header>
-    <!-- <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu"> -->
+    
     <img
       mat-card-image
-      src="http://localhost:3000/pictures/auction/{{ auction.imgUrl }}"
-      alt="Photo of a Shiba Inu"
+      src="{{ auction.imgUrl }}"
+      alt="{{ auction.title }}"
     />
 
     <mat-card-content class="auction-desc">

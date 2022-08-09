@@ -3,13 +3,13 @@
 <mat-dialog-content>
     <mat-card class="auction-card">
         <mat-card-header>
-            <div mat-card-avatar class="example-header-image"></div>
+            <div mat-card-avatar class="example-header-image" style="background-image: url({{auction.created_by.imgUrl}});"></div>
             <mat-card-title>{{auction.title}}</mat-card-title>
             <mat-card-subtitle>{{auction.category}}</mat-card-subtitle>
 
         </mat-card-header>
         
-        <img mat-card-image src='http://localhost:3000/pictures/auction/{{auction.imgUrl}}' alt="Photo of a Shiba Inu">
+        <img mat-card-image src='{{auction.imgUrl}}' alt="{{auction.title}}">
 
         <mat-card-content class="auction-desc">
             <h3>Current Bid - {{auction.price | currency}}</h3>
