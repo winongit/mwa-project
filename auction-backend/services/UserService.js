@@ -26,7 +26,7 @@ const signIn = async (user) => {
     }
     return {
       token: jwt.sign(
-        { email: foundUser.email, name: foundUser.name, _id: foundUser._id },
+        { email: foundUser.email, name: foundUser.name, _id: foundUser._id, imgUrl: foundUser.imgUrl },
         "SECRET",
         {
           expiresIn: "24h",

@@ -14,11 +14,10 @@ import { BidService } from '../service/bid.service';
 @Component({
   selector: 'app-create-bid',
   templateUrl: './create-bid.component.html',
-  styleUrls: ['./create-bid.component.scss']
+  styleUrls: ['./create-bid.component.scss'],
 })
-
 export class CreateBidComponent implements OnInit {
-  bidForm !: FormGroup;
+  bidForm!: FormGroup;
 
   auction!: Auction;
 
@@ -28,41 +27,55 @@ export class CreateBidComponent implements OnInit {
   logInUser: any;
   buttonDisable: boolean = true;
 
-  constructor(private router: Router, 
-      private ar: ActivatedRoute,
-      private auctionService: AuctionService,
-      private bidService: BidService,
-      private fb: FormBuilder,
-      private _snackBar: MatSnackBar,  
-      private authService: AuthService
-      ) { 
-       
-        this.ar.paramMap.pipe(
-          mergeMap((parms: any) => this.auctionService.getAuction(parms.get('auction_id')))
-        ).subscribe(response => {
-          console.log('i am auction response');
-          console.log(response);
-          this.auction = response;
+  max_bid_amount: number = 0;
 
-          this.bidForm = this.fb.group({
-            bid_amount: [0, [Validators.required, Validators.min(this.auction.price)]]
-          });
+  constructor(
+    private router: Router,
+    private ar: ActivatedRoute,
+    private auctionService: AuctionService,
+    private bidService: BidService,
+    private fb: FormBuilder,
+    private _snackBar: MatSnackBar,
+    private authService: AuthService
+  ) {
+    this.ar.paramMap
+      .pipe(
+        mergeMap((parms: any) =>
+          this.auctionService.getAuction(parms.get('auction_id'))
+        )
+      )
+      .subscribe((response) => {
+        console.log('i am auction response');
+        console.log(response);
+        this.auction = response;
 
-          console.log(this.authService.getLogInUser());
-          this.logInUser = this.authService.getLogInUser();
-          this.refreshBid();
-          this.checkUserForBidding();
-        
+        this.max_bid_amount = this.auction.max_bid_amount as number;
+        console.log(this.max_bid_amount);
+        if (this.max_bid_amount == 0) {
+          this.max_bid_amount = this.auction.price;
+        } else {
+          this.max_bid_amount = this.max_bid_amount + 1;
+        }
+
+        console.log(this.max_bid_amount);
+
+        this.bidForm = this.fb.group({
+          bid_amount: [
+            0,
+            [Validators.required, Validators.min(this.max_bid_amount)],
+          ],
         });
-      }
 
-  ngOnInit(): void {
-    
+        console.log(this.authService.getLogInUser());
+        this.logInUser = this.authService.getLogInUser();
+        this.refreshBid();
+        this.checkUserForBidding();
+      });
   }
 
-  refreshAuction(auction_id: string) {
+  ngOnInit(): void {}
 
-  }
+  refreshAuction(auction_id: string) {}
 
   checkUserForBidding() {
     if (this.logInUser._id === this.auction.created_by?._id) {
@@ -71,20 +84,19 @@ export class CreateBidComponent implements OnInit {
   }
 
   bid() {
-    
-    let bid = {...this.bidForm.value};
+    let bid = { ...this.bidForm.value };
 
     let auctionId = this.auction._id as string;
-      this.bidService.createBid(bid, auctionId).subscribe(response => {
+    this.bidService.createBid(bid, auctionId).subscribe((response) => {
       this.auction = response;
-      
+
       this.refreshBid();
       this._snackBar.open('Bid submitted successfully', '', {
-        duration: 5000
+        duration: 5000,
       });
     });
   }
-  
+
   refreshBid() {
     let bids = this.auction.bids;
     console.log('i am on bids');
@@ -93,12 +105,12 @@ export class CreateBidComponent implements OnInit {
       let a_modify_at = a.modified_at as Number;
       let b_modify_at = b.modified_at as Number;
 
-      if (a_modify_at > b_modify_at) return - 1;
+      if (a_modify_at > b_modify_at) return -1;
       if (a_modify_at < b_modify_at) return 1;
       return 0;
     });
 
-    if (bids &&bids?.length > 0) {
+    if (bids && bids?.length > 0) {
       bids[0].can_delete = true;
     }
 
@@ -110,13 +122,10 @@ export class CreateBidComponent implements OnInit {
     if (confirm('Are you sure you want to delete this bid?')) {
       let bid_id = bid._id as string;
       let auction_id = this.auction._id as string;
-      this.bidService.deleteBid(bid_id, auction_id).subscribe(response => {
-        this.auction.bids = this.auction.bids?.filter(b => b._id !== bid_id)
+      this.bidService.deleteBid(bid_id, auction_id).subscribe((response) => {
+        this.auction.bids = this.auction.bids?.filter((b) => b._id !== bid_id);
         this.refreshBid();
       });
-      
     }
-
   }
-
 }

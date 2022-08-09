@@ -13,24 +13,13 @@
     />
 
     <mat-card-content class="auction-desc">
-      <h3>Current Bid - {{ auction.price | currency }}</h3>
+      <h4>Original Price - {{ auction.price | currency }}</h4>
+      <h4 *ngIf="auction.winning">You are the winner</h4>
+      <h4>Your Bid - {{ auction.max_bid_amount | currency }}</h4>
       <p>
         {{ auction.description }}
       </p>
       <h4>End in - {{ auction.end_time | date: "medium" }}</h4>
     </mat-card-content>
-
-    <mat-card-actions class="auction-action">
-      <button
-        mat-raised-button
-        color="primary"
-        (click)="bid(auction)"
-        [disabled]="
-          logInUser._id === $any(auction.created_by._id)
-          || auction.status !== 'A'"
-        >
-        Bid
-      </button>
-    </mat-card-actions>
   </mat-card>
 </div>
