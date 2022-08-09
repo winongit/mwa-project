@@ -74,6 +74,11 @@ const Schema = new mongoose.Schema({
             _id: String,
             name: String,
             email: String
+        },
+        winner: {
+            type: Boolean,
+            default: false,
+            required: false,
         }
     }]
 

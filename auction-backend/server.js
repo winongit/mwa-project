@@ -3,6 +3,10 @@ const cors = require("cors");
 const morgan = require("morgan");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
+const Graceful = require('@ladjs/graceful');
+const Cabin = require('cabin');
+const Bree = require('bree');
+
 const { checkToken } = require("./middlewares/checkToken");
 
 const app = express();
@@ -38,4 +42,23 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: err });
 });
 
+const bree = new Bree({
+  logger: new Cabin(),
+  jobs: [
+    {
+      name: 'AuctionEngine',
+      interval: '1m'
+    }
+  ]
+});
+
+const graceful = new Graceful({ brees: [bree] });
+
+(async () => {
+  await bree.start();
+})()
 app.listen(3000, () => console.log("Listening on port 3000"));
+
+graceful.listen();
+
+
