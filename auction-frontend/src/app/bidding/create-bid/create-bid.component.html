@@ -39,7 +39,7 @@
         </ng-container>
 
         <ng-container matColumnDef="can_delete">
-            <th mat-header-cell *matHeaderCellDef> Can delete </th>
+            <th mat-header-cell *matHeaderCellDef> </th>
             <td mat-cell *matCellDef="let bid"> 
                 <button mat-mini-fab color="warn" *ngIf="bid.can_delete">
                     <mat-icon (click)="deleteBid(bid)">delete</mat-icon>

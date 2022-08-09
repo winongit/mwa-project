@@ -4,19 +4,27 @@ import { Auction } from 'src/app/shared/models/auction';
 import { Bid } from 'src/app/shared/models/bid';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class BidService {
-
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   private baseUrl = 'http://localhost:3000';
 
   createBid(bid: Bid, auction_id: string) {
-    return this.http.post<Auction>(`${this.baseUrl}/bid/auction/${auction_id}`, bid);
+    return this.http.post<Auction>(
+      `${this.baseUrl}/bid/auction/${auction_id}`,
+      bid
+    );
   }
 
   deleteBid(bid_id: string, auction_id: string) {
-    return this.http.delete(`${this.baseUrl}/bid/${bid_id}/auction/${auction_id}`);
+    return this.http.delete(
+      `${this.baseUrl}/bid/${bid_id}/auction/${auction_id}`
+    );
+  }
+
+  getMyBids() {
+    return this.http.get<Array<Auction>>(`${this.baseUrl}/bid`);
   }
 }
