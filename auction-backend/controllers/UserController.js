@@ -33,3 +33,11 @@ exports.checkEmail = async (req, res) => {
     };
   }
 };
+
+module.exports.uploadPhoto = (req, res) => {
+  try {
+    res.status(200).json({ filename: req.file.filename });
+  } catch (err) {
+    console.log(err);
+  }
+};
