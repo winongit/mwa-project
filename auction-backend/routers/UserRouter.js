@@ -53,6 +53,8 @@ const upload = multer({
 router.post("/auth/signUp", register);
 router.post("/auth/signIn", login);
 router.get("/checkEmail", checkEmail);
-router.post("/upload", upload.single("picture"), uploadPhoto);
+router.post("/upload", upload.single("picture"), function (req, res, next) {
+  res.status(200).send({ file: process.env.AZURE_FILE_PATH + req.filename });
+});
 
 module.exports = router;
