@@ -21,6 +21,5 @@ var upload = multer({
 });
 
 var multerAzure = require("multer-azure");
-require("dotenv").config();
 
 module.exports = upload;
