@@ -14,10 +14,13 @@ exports.register = async (req, res) => {
 exports.login = async (req, res) => {
   try {
     let user = await userService.signIn(req.body);
-    return res.json(user);
-  } catch (err) {
-    return res.status(400).send({
-      message: err,
+    console.log("after get user");
+    res.json(user);
+  } catch (error) {
+    console.log("i am error");
+    console.log(error);
+    res.status(400).send({
+      message: error,
     });
   }
 };
@@ -36,7 +39,8 @@ exports.checkEmail = async (req, res) => {
 
 module.exports.uploadPhoto = (req, res) => {
   try {
-    res.status(200).json({ filename: req.file.filename });
+    console.log(req.file);
+    res.status(200).json({ filename: req.file.url });
   } catch (err) {
     console.log(err);
   }

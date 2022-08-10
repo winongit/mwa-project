@@ -10,15 +10,25 @@ import { ListAuctionComponent } from '../bidding/list-auction/list-auction.compo
 import { AuthGuard } from '../core/guards/authguard/auth.guard';
 import { MyAuctionComponent } from './my-auction/my-auction.component';
 import { ExtendAuctionComponent } from './extend-auction/extend-auction.component';
+import { ExtendBidsComponent } from './extend-bids/extend-bids.component';
 // /auction/
 
 const routes: Routes = [
-  {path: '', component: MyAuctionComponent,  canActivate: [AuthGuard] },
-  {path: 'create', component: CreateAuctionComponent,  canActivate: [AuthGuard] } 
-]
+  { path: '', component: MyAuctionComponent, canActivate: [AuthGuard] },
+  {
+    path: 'create',
+    component: CreateAuctionComponent,
+    canActivate: [AuthGuard],
+  },
+];
 
 @NgModule({
-  declarations: [CreateAuctionComponent, MyAuctionComponent, ExtendAuctionComponent],
+  declarations: [
+    CreateAuctionComponent,
+    MyAuctionComponent,
+    ExtendAuctionComponent,
+    ExtendBidsComponent,
+  ],
   imports: [CommonModule, SharedModule, RouterModule.forChild(routes)],
   providers: [AuctionService],
 })

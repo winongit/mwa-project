@@ -58,7 +58,7 @@
             &nbsp;
             <div>
                 <button mat-raised-button color="primary" style="margin:5px;" [routerLink]="['/user/signin']">login</button>
-                <button mat-raised-button color="primary" style="margin:5px;">register</button>
+                <button mat-raised-button color="primary" style="margin:5px;" [disabled]="!imageSelect">register</button>
             </div>
         </form>
     </mat-card-content>
