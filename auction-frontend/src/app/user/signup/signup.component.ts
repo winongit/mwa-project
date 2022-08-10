@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserService } from '../services/user.service';
 import { HttpResponse, HttpStatusCode } from '@angular/common/http';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-signup',
@@ -22,7 +23,8 @@ export class SignupComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private userService: UserService,
-    private router: Router
+    private router: Router,
+    private _snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -117,9 +119,17 @@ export class SignupComponent implements OnInit {
         if (event instanceof HttpResponse) {
           if (event.status == HttpStatusCode.Ok) {
             this.user.imgUrl = event.body.filename as string;
-            this.userService.signup(this.user).subscribe((res) => {
-              this.router.navigate(['user/signin']);
-            });
+            this.userService.signup(this.user).subscribe(
+              (res) => {
+                this.router.navigate(['user/signin']);
+              },
+              (err) => {
+                console.log(err);
+                this._snackBar.open(err, '', {
+                  duration: 1000,
+                });
+              }
+            );
           }
         }
       });

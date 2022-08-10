@@ -24,4 +24,8 @@ export class BidService {
       `${this.apiURL}/bid/${bid_id}/auction/${auction_id}`
     );
   }
+
+  getMyBids() {
+    return this.http.get<Array<Auction>>(`${this.apiURL}/bid`);
+  }
 }

@@ -63,9 +63,10 @@ async function deleteBid(req, res, auction_id, bid_id) {
 
 async function getMyBids(req, res) {
   let user_id = req.user._id;
+  console.log(user_id);
 
   let auctionFromDB = await Auction.find({
-    "bids.$.created_by._id": user_id,
+    "bids.created_by._id": user_id,
   });
 
   auctionFromDB.map((a) => {
@@ -73,7 +74,7 @@ async function getMyBids(req, res) {
     a.max_bid_amount = max;
   });
 
-console.log(auctionFromDB);
+  console.log(auctionFromDB);
 
   return auctionFromDB;
 }

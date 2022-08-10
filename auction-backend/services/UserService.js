@@ -5,6 +5,13 @@ const jwt = require("jsonwebtoken");
 const registerUser = async (user) => {
   console.log(user);
   let newUser = new User(user);
+
+  let foundUser = await User.findOne({
+    email: user.email,
+  });
+
+  if (foundUser) throw "User already exist";
+
   console.log(newUser);
   newUser.password = bcrypt.hashSync(user.password, 10);
   await User.create(newUser);
@@ -14,13 +21,14 @@ const registerUser = async (user) => {
 
 const signIn = async (user) => {
   try {
+    console.log(user);
     let foundUser = await User.findOne({
       email: user.email,
     });
+    console.log("before throw");
     if (!foundUser || !foundUser.comparePassword(user.password)) {
-      return {
-        message: "Authentication failed. Invalid user or password.",
-      };
+      console.log("before throw 1");
+      throw "Authentication failed. Invalid user or password.";
     }
 
     console.log(foundUser.imgUrl);
@@ -40,17 +48,8 @@ const signIn = async (user) => {
       ),
     };
   } catch (err) {
-    return err.message;
+    throw err;
   }
-  return {
-    token: jwt.sign(
-      { email: foundUser.email, name: foundUser.name, _id: foundUser._id },
-      "SECRET",
-      {
-        expiresIn: "24h",
-      }
-    ),
-  };
 };
 
 const checkEmail = async (email) => {

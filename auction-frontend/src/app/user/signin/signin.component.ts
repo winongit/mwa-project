@@ -57,10 +57,12 @@ export class SigninComponent implements OnInit {
     if (!this.signInForm.valid) return;
     this.userService.signIn(user).subscribe(
       (res) => {
+        console.log(res);
         localStorage.setItem('token', res.token);
         this.router.navigate(['/auction']);
       },
       (err) => {
+        console.log(err);
         this._snackBar.open(err, '', {
           duration: 1000,
         });

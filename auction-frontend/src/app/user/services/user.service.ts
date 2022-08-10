@@ -19,7 +19,9 @@ export class UserService {
   }
 
   signup(user: User): Observable<any> {
-    return this.http.post<any>(`${this.apiURL}/users/auth/signup`, user);
+    return this.http
+      .post<any>(`${this.apiURL}/users/auth/signup`, user)
+      .pipe(catchError(this.handleError));
   }
 
   checkEmail(email: any): Observable<any> {
@@ -45,6 +47,7 @@ export class UserService {
 
   handleError(error: any) {
     let errorMessage = '';
+    console.log(error);
     errorMessage = `${error?.error?.message}`;
     return throwError(() => {
       return errorMessage;
