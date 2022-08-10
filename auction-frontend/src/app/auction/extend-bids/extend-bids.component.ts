@@ -18,7 +18,12 @@ import { MatPaginator } from '@angular/material/paginator';
   styleUrls: ['./extend-bids.component.scss'],
 })
 export class ExtendBidsComponent implements OnInit {
-  displayedColumns: string[] = ['bid_amount', 'created_by', 'created_at'];
+  displayedColumns: string[] = [
+    'bid_amount',
+    'created_by',
+    'created_at',
+    'winner',
+  ];
   dataSource!: MatTableDataSource<Bid>;
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
