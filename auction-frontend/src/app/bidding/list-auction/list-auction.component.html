@@ -18,7 +18,7 @@
         </mat-card-content>
 
         <mat-card-actions class="auction-action">
-            <button mat-raised-button color="primary" (click)="bid(auction)" [disabled]="logInUser._id === $any(auction.created_by._id)"> Bid</button>
+            <button mat-raised-button color="primary" (click)="bid(auction)" [disabled]="logInUser._id === $any(auction.created_by._id) || auction.status !=='A'"> Bid</button>
         </mat-card-actions>
     </mat-card>
 </div>

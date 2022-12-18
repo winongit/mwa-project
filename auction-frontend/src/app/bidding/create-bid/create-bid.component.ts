@@ -28,6 +28,7 @@ export class CreateBidComponent implements OnInit {
   buttonDisable: boolean = true;
 
   max_bid_amount: number = 0;
+  current_bid_amount: number = 0;
 
   constructor(
     private router: Router,
@@ -50,13 +51,20 @@ export class CreateBidComponent implements OnInit {
         this.auction = response;
 
         this.max_bid_amount = this.auction.max_bid_amount as number;
+
         console.log(this.max_bid_amount);
-        if (this.max_bid_amount == 0) {
+
+      
+
+        if (!this.max_bid_amount || this.max_bid_amount == 0) {
           this.max_bid_amount = this.auction.price;
+          this.current_bid_amount = this.max_bid_amount;
         } else {
-          this.max_bid_amount = this.max_bid_amount + 1;
+          this.current_bid_amount = this.max_bid_amount;
+          this.max_bid_amount = this.max_bid_amount + 1;     
         }
 
+        console.log('max bid amount');
         console.log(this.max_bid_amount);
 
         this.bidForm = this.fb.group({

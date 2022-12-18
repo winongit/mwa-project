@@ -30,6 +30,8 @@ export class MyBidsComponent implements OnInit {
       this.auctions.map((a) => {
         if (a.bids?.find((b) => b.winner === true)) {
           a.winning = true;
+        } else {
+          a.winning = false
         }
       });
     });

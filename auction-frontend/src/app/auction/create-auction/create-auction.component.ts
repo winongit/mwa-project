@@ -20,7 +20,7 @@ function dateValidator(): ValidatorFn {
 
     // return null if there's no errors
     return selectedDate.getTime() < today 
-      ? {invalidDate: 'You cannot use future dates' } 
+      ? {invalidDate: 'You cannot use preivious dates' } 
       : null;
   }
 }
