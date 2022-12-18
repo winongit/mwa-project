@@ -28,7 +28,9 @@ module.exports.createAuction = async (req, res) => {
 
 module.exports.uploadPhoto = (req, res) => {
   console.log(req.file);
-  res.status(200).json({ filename: req.file.url });
+  let fileurl = req.file.url.split("?")[0];
+  console.log(fileurl);
+  res.status(200).json({ filename: fileurl });
 };
 
 module.exports.getAllAuctions = async (req, res) => {

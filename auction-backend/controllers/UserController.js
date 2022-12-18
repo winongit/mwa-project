@@ -40,7 +40,9 @@ exports.checkEmail = async (req, res) => {
 module.exports.uploadPhoto = (req, res) => {
   try {
     console.log(req.file);
-    res.status(200).json({ filename: req.file.url });
+    let fileurl = req.file.url.split("?")[0];
+    console.log(fileurl);
+    res.status(200).json({ filename: fileurl });
   } catch (err) {
     console.log(err);
   }

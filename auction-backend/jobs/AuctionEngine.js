@@ -5,11 +5,11 @@ const mongoose = require("mongoose");
 require("dotenv").config();
 // mongodb connection
 
-
 const Auction = require("../models/Auction");
 const {
   getAuctionFor,
   updateWinningBid,
+  updateAuctionStatus,
 } = require("../services/AuctionService");
 
 const cabin = new Cabin({
@@ -36,11 +36,11 @@ if (parentPort) {
 
 (async () => {
   await mongoose
-  .connect(process.env.MONGO_URI, {
-    useNewUrlParser: true,
-  })
-  .then(() => console.log("Connected Successfully"))
-  .catch((err) => console.log(err));
+    .connect(process.env.MONGO_URI, {
+      useNewUrlParser: true,
+    })
+    .then(() => cabin.log("Connected Successfully"))
+    .catch((err) => cabin.log(err));
 
   const auctions = await getAuctionFor(param);
 
@@ -65,10 +65,15 @@ if (parentPort) {
             };
 
             let bidUpdate = await updateWinningBid(param, winningBid);
-            console.log(bidUpdate);
 
-            resolve();
+            // resolve();
+          } else {
+            let param = {
+              _id: auction._id,
+            };
+            let bidUpdate = await updateAuctionStatus(param, 'E');
           }
+          resolve();
         } catch (error) {
           cabin.error(error);
           reject(error);

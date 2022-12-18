@@ -35,10 +35,12 @@ async function getAllAuctions(req, res) {
 async function getAuction(req, res, auction_id) {
   let auction = await Auction.findById(auction_id);
 
-  auction.bids = auction.bids.filter((a) => a.created_by._id === req.user._id);
+  if (auction.bids.length > 0) {
+    let max = Math.max(...auction.bids.map((b) => b.bid_amount));
+    auction.max_bid_amount = max;
+  }
 
-  let max = Math.max(...auction.bids.map((b) => b.bid_amount));
-  auction.max_bid_amount = max;
+  auction.bids = auction.bids.filter((a) => a.created_by._id === req.user._id);
 
   return auction;
 }
@@ -116,6 +118,15 @@ async function updateWinningBid(param, bid) {
   return resposne;
 }
 
+async function updateAuctionStatus(param, auctionStatus) {
+  // await req.db.updateOne({_id: school_id, "teachers._id": teacher_id}, {$set: {"teachers.$.name": name}});
+  let resposne = await Auction.updateOne(param, {
+    status: auctionStatus,
+  });
+
+  return resposne;
+}
+
 module.exports = {
   createAuction,
   getAllAuctions,
@@ -124,4 +135,5 @@ module.exports = {
   extendAuction,
   getAuctionFor,
   updateWinningBid,
+  updateAuctionStatus,
 };

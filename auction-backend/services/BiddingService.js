@@ -72,11 +72,13 @@ async function getMyBids(req, res) {
   auctionFromDB.map((a) => {
     let max = Math.max(...a.bids.map((b) => b.bid_amount));
     a.max_bid_amount = max;
+
+    a.bids = a.bids.filter((b) => b.created_by._id === user_id);
   });
 
   console.log(auctionFromDB);
 
-  return auctionFromDB;
+  return auctionFromDB; 
 }
 
 module.exports = { createBid, deleteBid, getMyBids };
